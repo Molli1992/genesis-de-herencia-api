@@ -11,5 +11,5 @@ CREATE TABLE vinos (
     varietal VARCHAR(255),
     fermentacion VARCHAR(255),
     crianza VARCHAR(255),
-    img LONGBLOB
+    img VARCHAR(255)
 );

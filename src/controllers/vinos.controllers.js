@@ -19,6 +19,7 @@ export const postVinos = async (req, res) => {
       varietal,
       fermentacion,
       crianza,
+      img,
     } = req.body;
 
     if (
@@ -28,13 +29,23 @@ export const postVinos = async (req, res) => {
       !resumen ||
       !varietal ||
       !fermentacion ||
-      !crianza
+      !crianza ||
+      !img
     ) {
       res.status(404).send("Falta enviar datos obligatorios");
     } else {
       const [rows] = await pool.query(
-        `INSERT INTO vinos (nombre,  titulo, descripcion, resumen, varietal, fermentacion, crianza) VALUES(?, ?, ?, ?, ?, ?, ?) `,
-        [nombre, titulo, descripcion, resumen, varietal, fermentacion, crianza]
+        `INSERT INTO vinos (nombre,  titulo, descripcion, resumen, varietal, fermentacion, crianza, img) VALUES(?, ?, ?, ?, ?, ?, ?, ?) `,
+        [
+          nombre,
+          titulo,
+          descripcion,
+          resumen,
+          varietal,
+          fermentacion,
+          crianza,
+          img,
+        ]
       );
 
       res.status(202).send(`Vino creado correctamente ${{ rows }}`);
@@ -42,15 +53,6 @@ export const postVinos = async (req, res) => {
   } catch (error) {
     console.log(`Error: ${error}`);
   }
-};
-
-export const postVinosImg = (req, res) => {
-  pool.query(
-    //`INSERT INTO vinos (img) VALUES(?) `,
-    []
-  );
-  console.log(req.body);
-  res.status(202).send("Imagen cargada correctamente");
 };
 
 export const putVinos = (req, res) => {};

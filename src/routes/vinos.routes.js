@@ -4,16 +4,17 @@ import {
   postVinos,
   putVinos,
   deleteVinos,
-  postVinosImg,
 } from "../controllers/vinos.controllers.js";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const router = Router();
 
 router.get("/vinos", getVinos);
 
-router.post("/vinos", postVinos);
-
-router.post("/vinos/img", postVinosImg);
+router.post("/vinos", upload.single("imagen"), postVinos);
 
 router.put("/vinos", putVinos);
 
