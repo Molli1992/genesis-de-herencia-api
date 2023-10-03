@@ -105,7 +105,7 @@ export const putVinos = async (req, res) => {
 export const deleteVinos = async (req, res) => {
   try {
     const { nombre } = req.params;
-    console.log(req.params);
+
     if (nombre) {
       const result = await pool.query("DELETE FROM vinos WHERE nombre = ?", [
         nombre,
