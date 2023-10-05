@@ -1,5 +1,7 @@
 import { pool } from "../db.js";
 
+// ---------------------------------------- get vinos ------------------------------------------
+
 export const getVinos = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM vinos");
@@ -8,6 +10,8 @@ export const getVinos = async (req, res) => {
     res.status(404).send("Error interno del servidor:" + error);
   }
 };
+
+// ---------------------------------------- post vinos ------------------------------------------
 
 export const postVinos = async (req, res) => {
   try {
@@ -20,6 +24,8 @@ export const postVinos = async (req, res) => {
       fermentacion,
       crianza,
       img,
+      subtitulo,
+      imgsecundaria,
     } = req.body;
 
     if (
@@ -30,7 +36,9 @@ export const postVinos = async (req, res) => {
       !varietal ||
       !fermentacion ||
       !crianza ||
-      !img
+      !img ||
+      !subtitulo ||
+      !imgsecundaria
     ) {
       res.status(404).send("Faltan enviar datos obligatorios");
     } else {
@@ -43,7 +51,7 @@ export const postVinos = async (req, res) => {
         res.status(409).send("Ya existe un vino con el mismo nombre");
       } else {
         const [rows] = await pool.query(
-          `INSERT INTO vinos (nombre,  titulo, descripcion, resumen, varietal, fermentacion, crianza, img) VALUES (?, ?, ?, ?, ?, ?, ?, ?) `,
+          `INSERT INTO vinos (nombre,  titulo, descripcion, resumen, varietal, fermentacion, crianza, img, subtitulo, imgsecundaria) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `,
           [
             nombre,
             titulo,
@@ -53,6 +61,8 @@ export const postVinos = async (req, res) => {
             fermentacion,
             crianza,
             img,
+            subtitulo,
+            imgsecundaria,
           ]
         );
 
@@ -64,9 +74,13 @@ export const postVinos = async (req, res) => {
   }
 };
 
+// ---------------------------------------- put vinos ------------------------------------------
+
 export const putVinos = async (req, res) => {
   try {
     const {
+      imgsecundaria,
+      subtitulo,
       nombre,
       resumen,
       varietal,
@@ -78,9 +92,11 @@ export const putVinos = async (req, res) => {
       descripcion,
     } = req.body;
     const [result] = await pool.query(
-      `UPDATE vinos SET nombre = IFNULL(?, nombre), resumen = IFNULL(?, resumen), varietal = IFNULL(?, varietal), fermentacion = IFNULL(?, fermentacion), img = IFNULL(?, img), crianza = IFNULL(?, crianza), titulo = IFNULL(?, titulo), descripcion = IFNULL(?, descripcion)
+      `UPDATE vinos SET imgsecundaria = IFNULL(?, imgsecundaria), subtitulo = IFNULL(?, subtitulo), nombre = IFNULL(?, nombre), resumen = IFNULL(?, resumen), varietal = IFNULL(?, varietal), fermentacion = IFNULL(?, fermentacion), img = IFNULL(?, img), crianza = IFNULL(?, crianza), titulo = IFNULL(?, titulo), descripcion = IFNULL(?, descripcion)
      WHERE id = ?`,
       [
+        imgsecundaria,
+        subtitulo,
         nombre,
         resumen,
         varietal,
@@ -101,6 +117,8 @@ export const putVinos = async (req, res) => {
     res.status(404).send("Error interno del servidor:" + error);
   }
 };
+
+// ---------------------------------------- delete vinos ------------------------------------------
 
 export const deleteVinos = async (req, res) => {
   try {
