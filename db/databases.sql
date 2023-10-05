@@ -3,6 +3,7 @@ DROP DATABASE genesisdeherencias;
 
 USE genesisdeherencias;
 describe vinos;
+describe users;
 
 CREATE TABLE vinos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -17,3 +18,9 @@ CREATE TABLE vinos (
     img LONGTEXT,
     imgsecundaria LONGTEXT
 ) ENGINE=InnoDB;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario TEXT,
+    contraseña TEXT
+);
