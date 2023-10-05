@@ -2,6 +2,7 @@ import express from "express";
 import vinosRoutes from "./routes/vinos.routes.js";
 import userRoutes from "./routes/user.route.js";
 import cors from "cors";
+import { PORT } from "./config.js";
 
 const app = express();
 
@@ -11,5 +12,5 @@ app.use(cors());
 app.use("/api", vinosRoutes);
 app.use("/api", userRoutes);
 
-app.listen(3001);
+app.listen(PORT);
 console.log("Server running on port 3001");
