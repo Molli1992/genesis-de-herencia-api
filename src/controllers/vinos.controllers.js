@@ -109,9 +109,9 @@ export const putVinos = async (req, res) => {
       ]
     );
     if (result.affectedRows > 0) {
-      res.status(202).send("Usuario modificado");
+      res.status(202).send("Vino modificado");
     } else {
-      res.status(404).send("El usuario no existe");
+      res.status(404).send("El vino no existe");
     }
   } catch (error) {
     res.status(404).send("Error interno del servidor:" + error);
