@@ -17,20 +17,24 @@ export const postUsuarios = async (req, res) => {
   try {
     const { usuario, contraseña } = req.body;
 
-    const [existingUsers] = await pool.query(
-      "SELECT * FROM users WHERE usuario = ?",
-      [usuario]
-    );
-
-    if (existingUsers.length > 0) {
-      res.status(409).send("Ya existe un usuario con el mismo nombre");
+    if (!usuario || !contraseña) {
+      res.status(404).send("Faltan enviar datos obligatorios" + req.body);
     } else {
-      const [rows] = await pool.query(
-        `INSERT INTO users (usuario, contraseña) VALUES (?, ?) `,
-        [usuario, contraseña]
+      const [existingUsers] = await pool.query(
+        "SELECT * FROM users WHERE usuario = ?",
+        [usuario]
       );
 
-      res.status(202).send(`Usuario creado correctamente` + rows);
+      if (existingUsers.length > 0) {
+        res.status(409).send("Ya existe un usuario con el mismo nombre");
+      } else {
+        const [rows] = await pool.query(
+          `INSERT INTO users (usuario, contraseña) VALUES (?, ?) `,
+          [usuario, contraseña]
+        );
+
+        res.status(202).send(`Usuario creado correctamente` + rows);
+      }
     }
   } catch (error) {
     res.status(404).send("Error interno del servidor:" + error);
@@ -80,9 +84,3 @@ export const deleteUsers = async (req, res) => {
     res.status(404).send("Error interno del servidor:" + error);
   }
 };
-
-/*
-    if (!usuario || !contraseña) {
-      res.status(404).send("Faltan enviar datos obligatorios" + req.body);
-    }
-*/
