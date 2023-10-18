@@ -18,7 +18,7 @@ export const postUsuarios = async (req, res) => {
     const { usuario, contraseña } = req.body;
 
     if (!usuario || !contraseña) {
-      res.status(404).send("Faltan enviar datos obligatorios");
+      res.status(404).send("Faltan enviar datos obligatorios" + req.body);
     } else {
       const [existingUsers] = await pool.query(
         "SELECT * FROM users WHERE usuario = ?",
