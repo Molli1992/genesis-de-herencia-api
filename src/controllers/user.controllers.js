@@ -5,7 +5,7 @@ import { pool } from "../db.js";
 export const getUsuarios = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
-    res.status(202).send(rows);
+    res.status(202).send("Usuarios" + rows);
   } catch (error) {
     res.status(404).send("Error interno del servidor:" + error);
   }

@@ -36,3 +36,8 @@ CREATE TABLE message (
     comentarios TEXT,
     ledio TEXT
 );
+
+
+INSERT INTO users VALUES
+("marcelo", "z9000Vinos"),
+("milagros", "z9000Vinos");
