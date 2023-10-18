@@ -5,7 +5,7 @@ import { pool } from "../db.js";
 export const getUsuarios = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
-    res.status(202).send("Usuarios" + rows);
+    res.status(202).json({ usuarios: rows });
   } catch (error) {
     res.status(404).send("Error interno del servidor:" + error);
   }
@@ -33,7 +33,7 @@ export const postUsuarios = async (req, res) => {
           [usuario, contraseña]
         );
 
-        res.status(202).send(`Usuario creado correctamente` + rows);
+        res.status(202).send(`Usuario creado correctamente`);
       }
     }
   } catch (error) {
