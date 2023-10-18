@@ -15,4 +15,4 @@ app.use("/api", userRoutes);
 app.use("/api", userMessage);
 
 app.listen(PORT);
-console.log("Server running on port 3001");
+console.log(`Server running on port ${PORT}`);
