@@ -11,3 +11,4 @@ export const DATABASE = process.env.DB_DATABASE;
 export const UserNODEMAILER = process.env.USER_NODEMAILER;
 export const PassNODEMAILER = process.env.PASS_NODEMAILER;
 export const ToEmailNODEMAILER = process.env.TO_EMAIL_NODEMAILER;
+export const ToEmailNODEMAILER2 = process.env.TO_EMAIL_NODEMAILER_2;

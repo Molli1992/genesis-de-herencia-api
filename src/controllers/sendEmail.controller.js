@@ -1,5 +1,10 @@
 import nodemailer from "nodemailer";
-import { UserNODEMAILER, PassNODEMAILER, ToEmailNODEMAILER } from "../config.js";
+import {
+  UserNODEMAILER,
+  PassNODEMAILER,
+  ToEmailNODEMAILER,
+  ToEmailNODEMAILER2,
+} from "../config.js";
 
 export const sendEmail = async (req, res) => {
   try {
@@ -21,7 +26,7 @@ export const sendEmail = async (req, res) => {
     // Contenido del correo
     const mailOptions = {
       from: correo,
-      to: ToEmailNODEMAILER,
+      to: `${ToEmailNODEMAILER}, ${ToEmailNODEMAILER2}`,
       subject: `${asunto} - Mensaje del formulario de contacto`,
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; padding: 16px; background-color: #f9f9f9;">
