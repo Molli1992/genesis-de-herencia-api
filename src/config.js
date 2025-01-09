@@ -8,3 +8,6 @@ export const USER = process.env.DB_USER;
 export const PASSWORD = process.env.DB_PASSWORD;
 export const DBPORT = process.env.DB_PORT;
 export const DATABASE = process.env.DB_DATABASE;
+export const UserNODEMAILER = process.env.USER_NODEMAILER;
+export const PassNODEMAILER = process.env.PASS_NODEMAILER;
+export const ToEmailNODEMAILER = process.env.TO_EMAIL_NODEMAILER;
