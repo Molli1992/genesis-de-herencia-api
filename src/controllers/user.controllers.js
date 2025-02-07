@@ -6,6 +6,11 @@ import bcrypt from "bcrypt";
 export const getUsuarios = async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
+
+    rows.forEach((user) => {
+      delete user.contraseña;
+    });
+
     res.status(202).json({ usuarios: rows });
   } catch (error) {
     res.status(404).send("Error interno del servidor:" + error);
@@ -71,14 +76,26 @@ export const postUsuarios = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(contraseña, 10);
 
-    await pool.query("INSERT INTO users (usuario, contraseña) VALUES (?, ?)", [
-      usuario,
-      hashedPassword,
-    ]);
+    const [result] = await pool.query(
+      "INSERT INTO users (usuario, contraseña) VALUES (?, ?)",
+      [usuario, hashedPassword]
+    );
 
-    res.status(201).send("Usuario creado correctamente");
+    const newUserId = result.insertId;
+
+    const [newUser] = await pool.query(
+      "SELECT id, usuario FROM users WHERE id = ?",
+      [newUserId]
+    );
+
+    if (newUser.length > 0) {
+      res.status(201).json(newUser[0]);
+    } else {
+      res.status(500).send("Error al obtener el usuario recién creado");
+    }
   } catch (error) {
-    res.status(500).send("Error interno del servidor: " + error);
+    console.error(error);
+    res.status(500).send("Error interno del servidor: " + error.message);
   }
 };
 
@@ -98,17 +115,26 @@ export const putUsers = async (req, res) => {
     }
 
     const [result] = await pool.query(
-      `UPDATE users SET usuario = IFNULL(?, usuario), contraseña = IFNULL(?, contraseña) WHERE id = ?`,
+      `UPDATE users 
+       SET usuario = IFNULL(?, usuario), 
+           contraseña = IFNULL(?, contraseña) 
+       WHERE id = ?`,
       [usuario, hashedPassword, id]
     );
 
-    if (result.affectedRows > 0) {
-      res.status(200).send("Usuario modificado");
-    } else {
-      res.status(404).send("El usuario no existe");
+    if (result.affectedRows === 0) {
+      return res.status(404).send("El usuario no existe");
     }
+
+    const [updatedUser] = await pool.query(
+      "SELECT id, usuario FROM users WHERE id = ?",
+      [id]
+    );
+
+    res.status(200).json(updatedUser[0]);
   } catch (error) {
-    res.status(500).send("Error interno del servidor: " + error);
+    console.error(error);
+    res.status(500).send("Error interno del servidor: " + error.message);
   }
 };
 

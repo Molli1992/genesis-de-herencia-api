@@ -12,3 +12,6 @@ export const UserNODEMAILER = process.env.USER_NODEMAILER;
 export const PassNODEMAILER = process.env.PASS_NODEMAILER;
 export const ToEmailNODEMAILER = process.env.TO_EMAIL_NODEMAILER;
 export const ToEmailNODEMAILER2 = process.env.TO_EMAIL_NODEMAILER_2;
+export const CloudinatyCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+export const CloudinatyApiKey = process.env.CLOUDINARY_API_KEY;
+export const CloudinatyApiSecret = process.env.CLOUDINARY_API_SECRET;
